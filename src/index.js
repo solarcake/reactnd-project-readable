@@ -6,7 +6,6 @@ import React from 'react';
 import registerServiceWorker from './registerServiceWorker'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom';
-import styles from './index.css';
 
 const logger = store => next => action => {
   console.group(action.type)

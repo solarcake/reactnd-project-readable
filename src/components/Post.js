@@ -15,8 +15,10 @@ class Post extends Component {
 
     processPostUpdate(values, dispatch, props) {
         const {updatePost} = this.props;
-        this.setState({message: 'Updating Post'})
-        updatePost(values);
+        BlogAPI.updatePost(values).then((response) => {
+            this.setState({message: 'Updating Post'})
+            updatePost(values);
+        });
     }
 
     addNewPost(values, dispatch, props) {
@@ -30,31 +32,33 @@ class Post extends Component {
         this.setState({message: 'Adding New Post', currentPost:values.id});
         BlogAPI.addPost(values).then((response) => {
             addPost(values);
+        }).then(()=> {
+            this.setState({message: 'Post added successfully', currentPost:values.id});
         });
     }
 
     render() {
         // supplied by parameter or from state
         const postId = this.props.match.params.postId || this.state.currentPost;
-        const categoryId = this.props.match.params.categoryId;
         const posts = this.props.post || [];
         let editedPost = posts.filter((post) => post.id === postId).pop();
         return (
             <div>
                 {this.state.message ? 
-                <div>
-                    <h1>{this.state.message}</h1>
-                </div>:''}
+                    <div class="alert alert-success">
+                        <strong>{this.state.message}</strong>
+                    </div>
+                :''}
                 {editedPost 
                     ?
                      <div>
-                         <span>Post: editing post {postId} </span> 
+                         <h2>Editing Post</h2> 
                          <PostForm initialValues={editedPost} onSubmit={this.processPostUpdate.bind(this)}/>
                          <CommentList postId={postId}/>                         
                     </div>
                     : 
                     <div>
-                        <span>New Post</span>
+                        <h2>New Post</h2>
                         <PostForm onSubmit={this.addNewPost.bind(this)}/>
                     </div>
                 }
@@ -68,7 +72,7 @@ function mapStateToProps ({post}) {
     return {
       post
     }
-  }
+}
   
 function mapDispatchToProps (dispatch) {
     return {

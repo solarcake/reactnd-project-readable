@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, initialize } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
 export const fields = [ 'body', 'author']
 
 class CommentForm extends Component {
   render() {
-    const { fields: { body, author}, handleSubmit, load, pristine, reset, submitting } = this.props
+    const { fields: { body, author}, handleSubmit, pristine, submitting } = this.props
+    const editMode = !!this.props.initialValues;
     return (
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="form-group">
             <label htmlFor="body">Body</label>
-            <Field name="body" component="input"  type="text" {...body}/>
+            <Field className="form-control" name="body" component="textarea" type="textarea" {...body}/>
           </div>
           <div>
             <label htmlFor="author">Author</label>
-            <Field name="author" component="input"  type="text" {...author}/>
+            <Field disabled={editMode} className="form-control" name="author" component="input"  type="text" {...author}/>
           </div>
-          <button type="submit">Submit</button>
+            <button className="btn btn-primary" disabled={pristine || submitting} type="submit">Submit</button>    
         </form>
       );
   }

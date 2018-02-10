@@ -1,6 +1,6 @@
 import * as BlogAPI from '../BlogAPI'
 import React, { Component } from 'react'
-import { Link, Switch, Route, withRouter } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import { loadCategories, loadPosts } from '../actions'
 import { connect } from 'react-redux'
 import Post from './Post'
@@ -24,13 +24,17 @@ class App extends Component {
 
   render() {
     return(
-      <div>
-      <Route exact path="/" component={Main}/> 
-      <Route path="/post/:postId" component={Post}/>
-      <Route path="/category/:categoryName" component={Category}/>
-      <Route exact path="/post" component={Post}/>
-      <Route path="/comment/:postId/:commentId" component={Comment}/>
-      <Route exact path="/comment/:postId" component={Comment}/>
+      <div className="container">
+        <div className="page-header">
+          <h1>Udacity Blog <small>This is the second project for udacity react course by alan gauci. Hope it looks ok</small></h1>
+        </div>
+
+        <Route exact path="/" component={Main}/> 
+        <Route path="/post/:postId" component={Post}/>
+        <Route path="/category/:categoryName" component={Category}/>
+        <Route exact path="/post" component={Post}/>
+        <Route path="/comment/:postId/:commentId" component={Comment}/>
+        <Route exact path="/comment/:postId" component={Comment}/>
      </div>
     )
   }

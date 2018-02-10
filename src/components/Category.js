@@ -9,10 +9,13 @@ class Category extends Component {
         const posts = this.props.posts || [];
         return (
             <div>
-                <span>{category.name}</span>
-                <span>{category.path}</span>
-                <PostList posts={posts}/>
-                <Link href="#" to="/">Back to Main</Link>
+                <div className="row">
+                    <div className="panel panel-info">
+                    <div className="panel-heading">{category.name}</div>
+                    </div>
+                </div>
+            <PostList posts={posts} category={category.name}/>
+            <Link href="#" to="/">Back to Main</Link>
             </div>
         )
     }

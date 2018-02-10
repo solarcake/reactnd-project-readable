@@ -8,18 +8,32 @@ import * as BlogAPI from '../BlogAPI'
 
 class Comment extends Component {
     state = {
-        message: ''
+        message: '',
+        type: ''
     }
 
-    processCommentUpdate(values, dispatch, props) {
+    updateComment(values, dispatch, props) {
         const {updateComment} = this.props;
-        this.setState({message: 'Updating Comment'})
-        updateComment(values);
+        BlogAPI.updateComment(values).then(() => {
+            this.setState({
+                message: 'Comment updated',
+                type: 'success'
+            });
+            updateComment(values);
+        });  
     }
 
-    processNewComment(values, dispatch, props) {
-        this.setState({message: 'Adding New Comment'});
+    addNewComment(values, dispatch, props) {
         const {addComment} = this.props;
+        if (!values.body || !values.author) {
+            this.setState({
+                message: 'All fields must be filled in',
+                type: 'failure'
+            });
+
+            return;
+        }
+
         // enhance post with ID and time stamp and default values
         values.id = generateID()
         values.timestamp = Date.now()
@@ -29,35 +43,38 @@ class Comment extends Component {
         values.parentId = this.props.match.params.postId;
         BlogAPI.addComment(values).then((response) => {
             addComment(values);
-        });
+        }).then(()=> {
+            this.setState({
+                message: 'Comment successfully added',
+                type: 'success'
+            });
+
+            this.props.history.push(`/comment/${values.parentId}/${values.id}/`);
+        }); 
     }
 
     render() {
-        const commentId = this.props.match.params.commentId;
         const postId = this.props.match.params.postId;
         const comment = this.props.comment;
         return (
             <div>
-                <span>Comment {commentId}</span>
-                
-                <Link href="#" to="/">Back to Main</Link>
-            {this.state.message ? 
-            <div>
-                <h1>{this.state.message}</h1>
-            </div>:''}
-                {comment 
+                {this.state.message ? 
+                    <div className={this.state.type === 'success'? 'alert alert-success' : 'alert alert-danger'}>
+                    <strong>{this.state.message}</strong>
+                </div>:''}
+                {comment
                     ?
                     <div>
-                        <span>Comment: editing comment {postId} </span> 
-                        <CommentForm initialValues={comment} onSubmit={this.processCommentUpdate.bind(this)}/>                          
+                        <h2>Edit comment</h2> 
+                        <CommentForm initialValues={comment} onSubmit={this.updateComment.bind(this)}/>                          
                     </div>
                     : 
                     <div>
-                        <span>New Comment</span>
-                        <CommentForm onSubmit={this.processNewComment.bind(this)}/>
+                        <h2>New Comment</h2>
+                        <CommentForm onSubmit={this.addNewComment.bind(this)}/>
                     </div>
                 }
-             <Link href="#" to="/">Back to Main</Link>
+             <Link href="#" to={`/post/${postId}`}>Back to Post</Link>
             </div>
         )
     }

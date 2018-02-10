@@ -9,7 +9,7 @@ class Main extends Component {
     const posts = this.props.post || [];
     const categories = this.props.category || [];
     return(
-      <div>
+      <div className="row">
         <CategoryList categories={categories}/>
         <PostList posts={posts}/>
         <Link to='/post'>New Post</Link>

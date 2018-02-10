@@ -48,10 +48,11 @@ function comment(state = {}, action) {
                 }
             }
         case ADD_COMMENT:
+            var stateComments = state[comment.parentId] ? state[comment.parentId].comments : [];
             return {
                 ...state,
                 [comment.parentId]: {
-                    comments: state[comment.parentId].comments.concat([comment])
+                    comments: stateComments.concat([comment])
                 }
             }
         case UPDATE_COMMENT:

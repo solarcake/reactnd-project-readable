@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import CommentForm from '../form/CommentForm'
 import * as BlogAPI from '../BlogAPI'
 import { connect } from 'react-redux'
 import {loadPostComments} from '../actions'
@@ -26,18 +25,28 @@ class CommentList extends Component {
         const comments = this.state.comments || [];
         const postId = this.props.postId;
         return (
-            <div>
-                {comments.length ===0? 
-                <span>No comments yet found for this post</span>:
-                <span>You have {comments.length} comments on this post</span>}
-            <div>
-                {comments.map((comment) => (
-                    <div>
-                        <div class='comment'><Link to={`/comment/${postId}/${comment.id}`}>{comment.author}</Link></div>
+            <div style={{padding:20}}>
+                <div className="row">
+                    <div className="panel panel-default">
+                    <div className="panel-heading">You have {comments.length} comments on this post</div>
+                        <table className="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Comment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {comments.map((comment) => (
+                                    <tr key={comment.id}>
+                                        <td><Link to={`/comment/${postId}/${comment.id}`}>{comment.author}</Link></td>
+                                    </tr>
+                                   
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
-                ))}
+                    </div>
                 <Link to={`/comment/${postId}`}>New Comment</Link>
-            </div>
         </div>
         )}
 }
