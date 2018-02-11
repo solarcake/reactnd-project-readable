@@ -3,18 +3,14 @@ import {Link} from 'react-router-dom'
 import * as BlogAPI from '../BlogAPI'
 import { connect } from 'react-redux'
 import {loadPostComments} from '../actions'
+import DeleteComment from './DeleteComment'
 
 class CommentList extends Component {
-    state = {
-        comments: []
-    }
-
     componentDidMount() {
         const postId = this.props.postId;
         if (postId) {
             BlogAPI.getComments(postId).then((comments) => {
                 if (comments.length > 0) {
-                    this.setState({comments});
                     this.props.loadPostComments(postId, comments);
                 }
             });
@@ -22,8 +18,10 @@ class CommentList extends Component {
     }
 
     render() {
-        const comments = this.state.comments || [];
         const postId = this.props.postId;
+        const postComments = this.props.comment[postId] ? this.props.comment[postId].comments : [];
+        const comments =  postComments.filter((c) => !c.deleted);
+       
         return (
             <div style={{padding:20}}>
                 <div className="row">
@@ -33,14 +31,15 @@ class CommentList extends Component {
                             <thead>
                                 <tr>
                                     <th>Comment</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {comments.map((comment) => (
                                     <tr key={comment.id}>
                                         <td><Link to={`/comment/${postId}/${comment.id}`}>{comment.author}</Link></td>
+                                        <td><DeleteComment comment={comment}/></td>
                                     </tr>
-                                   
                                 ))}
                             </tbody>
                         </table>

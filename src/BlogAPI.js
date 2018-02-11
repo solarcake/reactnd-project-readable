@@ -87,3 +87,11 @@ export function removePost(post) {
     })
     .then((response) => response.json())
 }
+
+export function removeComment(comment) {
+    return fetch(`${API_HOST}/comments/${comment.id}`, {
+        headers: POST_HEADERS,
+        method:'DELETE'
+    })
+    .then((response) => response.json())
+}

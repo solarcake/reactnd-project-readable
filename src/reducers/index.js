@@ -48,7 +48,7 @@ function comment(state = {}, action) {
                 }
             }
         case ADD_COMMENT:
-            var stateComments = state[comment.parentId] ? state[comment.parentId].comments : [];
+            let stateComments = state[comment.parentId] ? state[comment.parentId].comments : [];
             return {
                 ...state,
                 [comment.parentId]: {
