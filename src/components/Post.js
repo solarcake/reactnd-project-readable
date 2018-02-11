@@ -5,6 +5,7 @@ import PostForm from '../form/PostForm';
 import {updatePost, addPost} from '../actions'
 import {generateID} from '../utils/appUtils'
 import CommentList from './CommentList'
+import DeletePost from './DeletePost'
 import * as BlogAPI from '../BlogAPI'
 
 class Post extends Component {
@@ -37,6 +38,10 @@ class Post extends Component {
         });
     }
 
+    postDeleted(response) {
+        this.props.history.push('/');
+    }
+
     render() {
         // supplied by parameter or from state
         const postId = this.props.match.params.postId || this.state.currentPost;
@@ -54,7 +59,8 @@ class Post extends Component {
                      <div>
                          <h2>Editing Post</h2> 
                          <PostForm initialValues={editedPost} onSubmit={this.processPostUpdate.bind(this)}/>
-                         <CommentList postId={postId}/>                         
+                         <DeletePost post={editedPost} onSubmit={this.postDeleted.bind(this)}/> 
+                         <CommentList postId={postId}/>  
                     </div>
                     : 
                     <div>

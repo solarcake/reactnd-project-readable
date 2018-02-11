@@ -6,15 +6,21 @@ import { connect } from 'react-redux'
 class DeleteComment extends Component {
     removeComment(comment) {
         const updateComment= this.props.updateComment;
-        BlogAPI.removeComment(comment).then((response) => {
+        const onSubmit = this.props.onSubmit;
+        BlogAPI.removeComment(comment)
+        .then((response) => {
             updateComment(response);
+        }).then(()=> {
+            if (onSubmit) {
+                onSubmit('Comment Deleted');
+            }
         });
     }
 
     render() {
         const comment = this.props.comment;
         return (
-            <span className="glyphicon glyphicon-remove" onClick={()=> this.removeComment(comment)}></span>
+            <button type="button" onClick={()=> this.removeComment(comment)} className="btn btn-danger">Delete Comment</button>
         )
     }
 }

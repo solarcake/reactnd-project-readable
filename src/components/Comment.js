@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import {updateComment, addComment} from '../actions'
 import {generateID} from '../utils/appUtils'
 import * as BlogAPI from '../BlogAPI'
+import DeleteComment from './DeleteComment'
 
 class Comment extends Component {
     state = {
@@ -53,6 +54,11 @@ class Comment extends Component {
         }); 
     }
 
+    postDeleteComment() {
+        const postId = this.props.match.params.postId
+        this.props.history.push(`/post/${postId}/`);
+    }
+
     render() {
         const postId = this.props.match.params.postId;
         const comment = this.props.comment;
@@ -66,7 +72,8 @@ class Comment extends Component {
                     ?
                     <div>
                         <h2>Edit comment</h2> 
-                        <CommentForm initialValues={comment} onSubmit={this.updateComment.bind(this)}/>                          
+                        <CommentForm initialValues={comment} onSubmit={this.updateComment.bind(this)}/> 
+                        <DeleteComment comment={comment} onSubmit={this.postDeleteComment.bind(this)}/>                         
                     </div>
                     : 
                     <div>

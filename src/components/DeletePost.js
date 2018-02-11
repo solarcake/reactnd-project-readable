@@ -6,15 +6,21 @@ import { connect } from 'react-redux'
 class DeletePost extends Component {
     removePost(post) {
         const updatePost = this.props.updatePost;
-        BlogAPI.removePost(post).then((response) => {
+        const onSubmit = this.props.onSubmit;
+        BlogAPI.removePost(post)
+        .then((response) => {
             updatePost(response);
+        }).then(() => {
+            if (onSubmit) {
+                onSubmit('Post Deleted');
+            }
         });
     }
 
     render() {
         const post = this.props.post;
         return (
-            <span className="glyphicon glyphicon-remove" onClick={()=> this.removePost(post)}></span>
+            <button type="button" onClick={()=> this.removePost(post)} className="btn btn-danger">Delete Post</button>
         )
     }
 }
