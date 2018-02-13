@@ -31,11 +31,11 @@ class App extends Component {
         </div>
         <Switch>
           <Route exact path="/" component={Main}/> 
-          <Route path="/post/:postId" component={Post}/>
           <Route path="/category/:categoryName" component={Category}/>
           <Route exact path="/post" component={Post}/>
           <Route path="/comment/:postId/:commentId" component={Comment}/>
           <Route exact path="/comment/:postId" component={Comment}/>
+          <Route path="/:categoryName/:postId" component={Post}/>
           <Route component={NoMatch}/>
         </Switch>
      </div>

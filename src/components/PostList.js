@@ -89,7 +89,7 @@ class PostList extends Component {
                         <td>{p.voteScore}</td>
                         <td>{this.formatDateTimeStamp(p.timestamp)}</td>
                         <td><Vote post={p}/></td>
-                        <td><Link to={`/post/${p.id}`}>Edit</Link></td>
+                        <td><Link to={`/${p.category}/${p.id}`}>Edit</Link></td>
                         <td><DeletePost post={p}/></td>
                     </tr>
                 ))}
