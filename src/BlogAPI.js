@@ -25,7 +25,6 @@ export function getComment(commentId) {
     return fetch(`${API_HOST}/comments/${commentId}/`, {headers: HEADERS})
     .then((response) => response.json())
     .then((comment) => comment)
-    .catch((e) => null)
 }
 
 export function addComment(comment) {

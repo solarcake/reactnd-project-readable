@@ -56,10 +56,11 @@ function comment(state = {}, action) {
                 }
             }
         case UPDATE_COMMENT:
+            let updateStateComments = state[comment.parentId] ? state[comment.parentId].comments : [];
             return {
                 ...state,
                 [comment.parentId]: {
-                    comments: state[comment.parentId].comments.filter((c)=> c.id !== comment.id).concat([comment])
+                    comments: updateStateComments.filter((c)=> c.id !== comment.id).concat([comment])
                 }
             }
         default: 

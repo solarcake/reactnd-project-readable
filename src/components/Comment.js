@@ -18,12 +18,15 @@ class Comment extends Component {
         const commentId = this.props.match.params.commentId;
         if (commentId) {
             BlogAPI.getComment(commentId).then((comment) => {
-                if (comment) {
-                    updateComment(comment);
-                    this.setState({
-                        comment: comment
-                    });
+                if (!comment.id || comment.error) {
+                    this.props.history.push('/404');
+                    return;
                 }
+                
+                updateComment(comment);
+                this.setState({
+                    comment: comment
+                });
             });
         }
     }
@@ -34,7 +37,8 @@ class Comment extends Component {
             updateComment(values);
             this.setState({
                 message: 'Comment updated',
-                type: 'success'
+                type: 'success',
+                comment: values
             });
         });  
     }
@@ -59,9 +63,9 @@ class Comment extends Component {
         values.parentId = this.props.match.params.postId;
         BlogAPI.addComment(values).then((response) => {
             addComment(values);
-        }).then(()=> {
+        }).then((comment)=> {
             this.setState({
-                message: 'Comment updated',
+                message: 'Added new comment',
                 type: 'success',
                 comment: values
             });
@@ -76,13 +80,7 @@ class Comment extends Component {
 
     render() {
         const postId = this.props.match.params.postId;
-        const commentId = this.props.match.params.commentId;
         const comment = this.state.comment;
-
-        if (!comment && commentId) {
-            this.props.history.push('/404');
-        }
-
         return (
             <div>
                 {this.state.message ? 
@@ -108,7 +106,7 @@ class Comment extends Component {
     }
 }
 
-  function mapStateToProps () {
+  function mapStateToProps ({comment}) {
     return {};
   }
   

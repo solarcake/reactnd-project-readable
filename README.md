@@ -24,7 +24,7 @@
 
 * /category/{categoryName} - List all posts for a given category
 
-* /comment/{postId}/{commentId} - Edit an existing post where postId is the post id and commentId is the comment id against the post
+* /comment/{postId}/{commentId} -] Edit an existing post where postId is the post id and commentId is the comment id against the post
          
 * /comment/:postId - Add a new comment against the post
 
