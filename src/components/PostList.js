@@ -77,17 +77,19 @@ class PostList extends Component {
                         <th onClick={()=>this.sortPostByControl('voteScore', directionControls.voteScore.inverseDirection)}>Vote Score <span className={directionControls.voteScore.className}></span></th>
                         <th onClick={()=>this.sortPostByControl('timestamp', directionControls.timestamp.inverseDirection)}>Created time <span className={directionControls.timestamp.className}></span></th>
                         <th>Vote</th>
-                        <th>Delete</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
                     </tr>  
                </thead>
                <tbody>   
                 {posts.map((p) => (
                     <tr key={p.id}>
-                        <td><Link to={`/post/${p.id}`}>{p.title}</Link></td>
+                        <td>{p.title}</td>
                         <td>{p.author}</td>
                         <td>{p.voteScore}</td>
                         <td>{this.formatDateTimeStamp(p.timestamp)}</td>
                         <td><Vote post={p}/></td>
+                        <td><Link to={`/post/${p.id}`}>Edit</Link></td>
                         <td><DeletePost post={p}/></td>
                     </tr>
                 ))}

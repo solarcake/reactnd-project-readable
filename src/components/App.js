@@ -1,11 +1,12 @@
 import * as BlogAPI from '../BlogAPI'
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, withRouter, Switch } from 'react-router-dom'
 import { loadCategories, loadPosts } from '../actions'
 import { connect } from 'react-redux'
 import Post from './Post'
 import Comment from './Comment'
 import Category from './Category'
+import NoMatch from './NoMatch'
 import Main from './Main'
 
 class App extends Component {
@@ -28,13 +29,15 @@ class App extends Component {
         <div className="page-header">
           <h1>Udacity Blog <small>This is the second project for udacity react course by alan gauci. Hope it looks ok</small></h1>
         </div>
-
-        <Route exact path="/" component={Main}/> 
-        <Route path="/post/:postId" component={Post}/>
-        <Route path="/category/:categoryName" component={Category}/>
-        <Route exact path="/post" component={Post}/>
-        <Route path="/comment/:postId/:commentId" component={Comment}/>
-        <Route exact path="/comment/:postId" component={Comment}/>
+        <Switch>
+          <Route exact path="/" component={Main}/> 
+          <Route path="/post/:postId" component={Post}/>
+          <Route path="/category/:categoryName" component={Category}/>
+          <Route exact path="/post" component={Post}/>
+          <Route path="/comment/:postId/:commentId" component={Comment}/>
+          <Route exact path="/comment/:postId" component={Comment}/>
+          <Route component={NoMatch}/>
+        </Switch>
      </div>
     )
   }

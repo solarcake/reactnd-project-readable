@@ -4,6 +4,7 @@ import * as BlogAPI from '../BlogAPI'
 import { connect } from 'react-redux'
 import {loadPostComments} from '../actions'
 import DeleteComment from './DeleteComment'
+import VoteComment from './VoteComment'
 
 class CommentList extends Component {
     componentDidMount() {
@@ -31,13 +32,17 @@ class CommentList extends Component {
                             <thead>
                                 <tr>
                                     <th>Comment</th>
-                                    <th>Delete</th>
+                                    <th>Vote</th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {comments.map((comment) => (
                                     <tr key={comment.id}>
-                                        <td><Link to={`/comment/${postId}/${comment.id}`}>{comment.author}</Link></td>
+                                        <td>{comment.author}</td>
+                                        <td><VoteComment comment={comment}/></td>
+                                        <td><Link to={`/comment/${postId}/${comment.id}`}>Edit</Link></td>
                                         <td><DeleteComment comment={comment}/></td>
                                     </tr>
                                 ))}

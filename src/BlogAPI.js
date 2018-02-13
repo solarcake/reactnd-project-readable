@@ -21,6 +21,13 @@ export function getComments(postId) {
     .catch((e) => [])
 }
 
+export function getComment(commentId) {
+    return fetch(`${API_HOST}/comments/${commentId}/`, {headers: HEADERS})
+    .then((response) => response.json())
+    .then((comment) => comment)
+    .catch((e) => null)
+}
+
 export function addComment(comment) {
     return fetch(`${API_HOST}/comments`, {
         headers: POST_HEADERS,
@@ -73,6 +80,24 @@ export function upVote(post) {
 
 export function downVote(post) {
     return fetch(`${API_HOST}/posts/${post.id}`, {
+        headers: POST_HEADERS,
+        method:'POST',
+        body: JSON.stringify({option:'downVote'})
+    })
+    .then((response) => response.json())
+}
+
+export function upVoteComment(comment) {
+    return fetch(`${API_HOST}/comments/${comment.id}`, {
+        headers: POST_HEADERS,
+        method:'POST',
+        body: JSON.stringify({option:'upVote'})
+    })
+    .then((response) => response.json())
+}
+
+export function downVoteComment(comment) {
+    return fetch(`${API_HOST}/comments/${comment.id}`, {
         headers: POST_HEADERS,
         method:'POST',
         body: JSON.stringify({option:'downVote'})

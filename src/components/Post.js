@@ -9,15 +9,9 @@ import DeletePost from './DeletePost'
 import * as BlogAPI from '../BlogAPI'
 
 class Post extends Component {
-    state = {
-        message: null,
-        currentPost: null
-    }
-
     processPostUpdate(values, dispatch, props) {
         const {updatePost} = this.props;
         BlogAPI.updatePost(values).then((response) => {
-            this.setState({message: 'Updating Post'})
             updatePost(values);
         });
     }
@@ -30,11 +24,11 @@ class Post extends Component {
         values.voteScore = 1
         values.deleted = false
         values.commentCount = 0
-        this.setState({message: 'Adding New Post', currentPost:values.id});
+       // this.setState({message: 'Adding New Post', currentPost:values.id});
         BlogAPI.addPost(values).then((response) => {
             addPost(values);
         }).then(()=> {
-            this.setState({message: 'Post added successfully', currentPost:values.id});
+            this.props.history.push(`/post/${values.id}`);
         });
     }
 
@@ -44,16 +38,17 @@ class Post extends Component {
 
     render() {
         // supplied by parameter or from state
-        const postId = this.props.match.params.postId || this.state.currentPost;
+        const postId = this.props.match.params.postId;
         const posts = this.props.post || [];
         let editedPost = posts.filter((post) => post.id === postId).pop();
+    
+        // post not found
+        if (posts.length > 0 && postId && !editedPost) {
+           this.props.history.push('/404');
+        }
+
         return (
             <div>
-                {this.state.message ? 
-                    <div class="alert alert-success">
-                        <strong>{this.state.message}</strong>
-                    </div>
-                :''}
                 {editedPost 
                     ?
                      <div>

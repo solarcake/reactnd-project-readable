@@ -10,17 +10,32 @@ import DeleteComment from './DeleteComment'
 class Comment extends Component {
     state = {
         message: '',
-        type: ''
+        type: '',
+        comment: null
+    }
+
+    componentDidMount() {
+        const commentId = this.props.match.params.commentId;
+        if (commentId) {
+            BlogAPI.getComment(commentId).then((comment) => {
+                if (comment) {
+                    updateComment(comment);
+                    this.setState({
+                        comment: comment
+                    });
+                }
+            });
+        }
     }
 
     updateComment(values, dispatch, props) {
         const {updateComment} = this.props;
         BlogAPI.updateComment(values).then(() => {
+            updateComment(values);
             this.setState({
                 message: 'Comment updated',
                 type: 'success'
             });
-            updateComment(values);
         });  
     }
 
@@ -46,10 +61,10 @@ class Comment extends Component {
             addComment(values);
         }).then(()=> {
             this.setState({
-                message: 'Comment successfully added',
-                type: 'success'
+                message: 'Comment updated',
+                type: 'success',
+                comment: values
             });
-
             this.props.history.push(`/comment/${values.parentId}/${values.id}/`);
         }); 
     }
@@ -61,7 +76,13 @@ class Comment extends Component {
 
     render() {
         const postId = this.props.match.params.postId;
-        const comment = this.props.comment;
+        const commentId = this.props.match.params.commentId;
+        const comment = this.state.comment;
+
+        if (!comment && commentId) {
+            this.props.history.push('/404');
+        }
+
         return (
             <div>
                 {this.state.message ? 
@@ -87,14 +108,8 @@ class Comment extends Component {
     }
 }
 
-function mapStateToProps ({comment}, ownProps) {
-    const postId = ownProps.match.params.postId;
-    const commentId = ownProps.match.params.commentId;
-    if (!commentId || !postId || !comment[postId]) {
-        return {}
-    }
-    const postComments = comment[postId].comments.filter((comment) => comment.id === commentId);
-    return { comment: postComments[0]} || {}
+  function mapStateToProps () {
+    return {};
   }
   
   function mapDispatchToProps (dispatch) {
