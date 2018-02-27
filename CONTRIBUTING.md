@@ -1,8 +1,8 @@
-How to contribute
+## How to contribute
 
 Please feel free to contribute to this project with any improvments
 
-Submitting changes
+## Submitting changes
 
 Please send a GitHub Pull Request to this project with a clear list of what you've done
 
@@ -12,6 +12,6 @@ $ git commit -m "A brief summary of the commit
 > 
 > A paragraph describing what changed and its impact."
 
-Coding conventions
+## Coding conventions
 
 No particular coding conventions as of yet but try to keep it clean
