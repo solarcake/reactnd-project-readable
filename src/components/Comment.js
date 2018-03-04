@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import CommentForm from '../form/CommentForm'
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
-import {updateComment, addComment} from '../actions'
+import {updateComment, addComment} from '../actions/CommentActions'
+import {updatePost} from '../actions/PostActions'
 import {generateID} from '../utils/appUtils'
 import * as BlogAPI from '../BlogAPI'
 import DeleteComment from './DeleteComment'
@@ -44,7 +45,8 @@ class Comment extends Component {
     }
 
     addNewComment(values, dispatch, props) {
-        const {addComment} = this.props;
+        const {addComment, updatePost, post} = this.props;
+        const postId = this.props.match.params.postId;
         if (!values.body || !values.author) {
             this.setState({
                 message: 'All fields must be filled in',
@@ -54,15 +56,19 @@ class Comment extends Component {
             return;
         }
 
+        let commentpost = post.filter((p) => p.id === postId)[0];
+
         // enhance post with ID and time stamp and default values
         values.id = generateID()
         values.timestamp = Date.now()
         values.voteScore = 1
         values.deleted = false
         values.parentDelete = false
-        values.parentId = this.props.match.params.postId;
+        values.parentId = postId
+        commentpost.commentCount+= 1;
         BlogAPI.addComment(values).then((response) => {
             addComment(values);
+            updatePost(commentpost);
         }).then((comment)=> {
             this.setState({
                 message: 'Added new comment',
@@ -92,7 +98,7 @@ class Comment extends Component {
                     <div>
                         <h2>Edit comment</h2> 
                         <CommentForm initialValues={comment} onSubmit={this.updateComment.bind(this)}/> 
-                        <DeleteComment comment={comment} onSubmit={this.postDeleteComment.bind(this)}/>                         
+                        <DeleteComment comment={comment} onSubmit={this.postDeleteComment.bind(this)} control="button"/>                         
                     </div>
                     : 
                     <div>
@@ -106,14 +112,17 @@ class Comment extends Component {
     }
 }
 
-  function mapStateToProps ({comment}) {
-    return {};
+  function mapStateToProps ({post}) {
+    return {
+        post: post
+    };
   }
   
   function mapDispatchToProps (dispatch) {
     return {
         updateComment: (data) => dispatch(updateComment(data)),
-        addComment: (data) => dispatch(addComment(data))
+        addComment: (data) => dispatch(addComment(data)),
+        updatePost: (data) => dispatch(updatePost(data))
     }
 }
   

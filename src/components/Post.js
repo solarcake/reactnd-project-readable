@@ -2,10 +2,13 @@ import React, { Component} from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PostForm from '../form/PostForm';
-import {updatePost, addPost} from '../actions'
+import {updatePost, addPost} from '../actions/PostActions'
 import {generateID} from '../utils/appUtils'
 import CommentList from './CommentList'
 import DeletePost from './DeletePost'
+import Vote from './Vote'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/action/home';
 import * as BlogAPI from '../BlogAPI'
 
 class Post extends Component {
@@ -52,9 +55,10 @@ class Post extends Component {
                 {editedPost 
                     ?
                      <div>
-                         <h2>Editing Post</h2> 
+                         <h2>Edit Post | Current vote score is {editedPost.voteScore}</h2>
                          <PostForm initialValues={editedPost} onSubmit={this.processPostUpdate.bind(this)}/>
-                         <DeletePost post={editedPost} onSubmit={this.postDeleted.bind(this)}/> 
+                         <DeletePost control="button" post={editedPost} onSubmit={this.postDeleted.bind(this)}/>
+                         <Vote post={editedPost} control="button"/>
                          <CommentList postId={postId}/>  
                     </div>
                     : 
@@ -63,7 +67,8 @@ class Post extends Component {
                         <PostForm onSubmit={this.addNewPost.bind(this)}/>
                     </div>
                 }
-                <Link href="#" to="/">Back to Main</Link>
+
+                <Link href="#" to="/"><FloatingActionButton mini={true}><ContentAdd /></FloatingActionButton></Link>
             </div>
         )
     }

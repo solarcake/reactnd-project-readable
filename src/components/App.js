@@ -1,34 +1,27 @@
-import * as BlogAPI from '../BlogAPI'
 import React, { Component } from 'react'
 import { Route, withRouter, Switch } from 'react-router-dom'
-import { loadCategories, loadPosts } from '../actions'
+import * as actions from '../actions/AppActions';
 import { connect } from 'react-redux'
 import Post from './Post'
 import Comment from './Comment'
 import Category from './Category'
 import NoMatch from './NoMatch'
 import Main from './Main'
+import AppBar from 'material-ui/AppBar'
 
 class App extends Component {
-   // save in application state 
-  
-  componentDidMount() {
-     // Get all categories to display on front page 
-      BlogAPI.getCategories().then((categories) => {
-          this.props.loadCategories(categories)
-      });
-
-      BlogAPI.getPosts().then((posts) => {
-          this.props.loadPosts(posts);
-      });      
+  componentDidMount() {    
+    this.props.loadInitialData();
   }
 
   render() {
     return(
-      <div className="container">
-        <div className="page-header">
-          <h1>Udacity Blog <small>This is the second project for udacity react course by alan gauci. Hope it looks ok</small></h1>
-        </div>
+      <div className="App">
+        <AppBar
+          title="Udacity Blog - This is the second project for udacity react course"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+          />
+      
         <Switch>
           <Route exact path="/" component={Main}/> 
           <Route path="/category/:categoryName" component={Category}/>
@@ -50,14 +43,7 @@ function mapStateToProps ({categories, posts}) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    loadCategories: (data) => dispatch(loadCategories(data)),
-    loadPosts: (data) => dispatch(loadPosts(data))
-  }
-}
-
 export default withRouter(connect(
   mapStateToProps,
-  mapDispatchToProps
+  actions
 )(App))

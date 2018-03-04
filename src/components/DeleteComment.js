@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import * as BlogAPI from '../BlogAPI'
-import {updateComment} from '../actions'
+import {updateComment} from '../actions/CommentActions'
 import { connect } from 'react-redux'
+import FlatButton from 'material-ui/FlatButton'
 
 class DeleteComment extends Component {
     removeComment(comment) {
@@ -19,8 +20,12 @@ class DeleteComment extends Component {
 
     render() {
         const comment = this.props.comment;
+        const buttonControl = this.props.control === 'button'
         return (
-            <button type="button" onClick={()=> this.removeComment(comment)} className="btn btn-danger">Delete Comment</button>
+            buttonControl ? 
+            <FlatButton primary={true} onClick={()=> this.removeComment(comment)}>Delete Comment</FlatButton>
+            :
+            <span onClick={()=> this.removeComment(comment)}>Delete Comment</span>
         )
     }
 }

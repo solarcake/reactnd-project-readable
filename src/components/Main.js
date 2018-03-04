@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PostList from './PostList'
 import CategoryList from './CategoryList'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class Main extends Component {
   render() {
@@ -12,7 +14,7 @@ class Main extends Component {
       <div className="row">
         <CategoryList categories={categories}/>
         <PostList posts={posts}/>
-        <Link to='/post'>New Post</Link>
+        <Link to='/post'><FloatingActionButton mini={true}><ContentAdd /></FloatingActionButton></Link>
      </div>
     )
   }

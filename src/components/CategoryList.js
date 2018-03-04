@@ -1,5 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import {
+    Table,
+    TableBody,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn,
+  } from 'material-ui/Table';
 
 const DEFAULT_COMPONENT_DIRECTION = 'DESC';
 
@@ -8,7 +16,8 @@ class CategoryList extends Component {
         super(props);
         this.state = {
           categoryListSortDirection: DEFAULT_COMPONENT_DIRECTION,
-          categories: props.categories || []
+          categories: props.categories || [],
+          showCheckboxes: false
         }
       }
     
@@ -35,33 +44,42 @@ class CategoryList extends Component {
             categories: props.categories || []
         });
       }
-    
 
-    render() {
+      renderChildList(categories) {
+        return categories.map((category) => (
+            <TableRow key={category.name}>
+                <TableRowColumn><Link to={`/category/${category.name}`}>{category.name}</Link></TableRowColumn>
+                <TableRowColumn>{category.path}</TableRowColumn>
+            </TableRow>
+        ))
+      }
+    
+      render() {
         const categories = this.state.categories;
-        let categoryArrowClass = this.state.categoryListSortDirection === DEFAULT_COMPONENT_DIRECTION ? ' glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'
+        let categoryArrowClass = this.state.categoryListSortDirection === DEFAULT_COMPONENT_DIRECTION ? 'expand_more' : 'expand_less'
         return (
-            <div className="row">
-                <div className="panel panel-default">
-                <div className="panel-heading">Categories</div>
-                <table className="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th onClick={()=>this.sortCategoryList('name')}>Name <span className={categoryArrowClass}></span></th>
-                        <th onClick={()=>this.sortCategoryList('path')}>Path</th> 
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {categories.map((category) => (
-                        <tr key={category.name}>
-                            <td><Link to={`/category/${category.name}`}>{category.name}</Link></td>
-                            <td>{category.path}</td>
-                        </tr>
-                        ))}
-                    </tbody>
-                    </table>
-                </div>
-            </div>
+            <Table>
+            <TableHeader
+                displaySelectAll={this.state.showCheckboxes}
+                adjustForCheckbox={this.state.showCheckboxes}
+            >
+            <TableRow>
+                <TableHeaderColumn colSpan="2" tooltip="Categories" style={{textAlign: 'left'}}>
+                   <h2>Blog Categories</h2>
+                </TableHeaderColumn>
+            </TableRow>
+            <TableRow>
+                <TableHeaderColumn><span onClick={()=>this.sortCategoryList('name')}>Name <i className="material-icons">{categoryArrowClass}</i> </span></TableHeaderColumn>
+                <TableHeaderColumn><span onClick={()=>this.sortCategoryList('path')}>Path <i className="material-icons">{categoryArrowClass}</i> </span></TableHeaderColumn>
+            </TableRow>
+            </TableHeader> 
+
+            <TableBody
+                displayRowCheckbox={this.state.showCheckboxes}
+            >
+                 {this.renderChildList(categories)}
+            </TableBody>
+            </Table>
         )
     }
 }

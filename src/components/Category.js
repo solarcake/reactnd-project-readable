@@ -2,21 +2,30 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import PostList from './PostList'
 import {Link} from 'react-router-dom'
-
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentHome from 'material-ui/svg-icons/action/home';
 class Category extends Component {
+   
     render() {
+        const linkStyle = {
+            display: "inline-block",
+            display: "inline-flex"
+        }
+    
         const category = this.props.category || {};
         const posts = this.props.posts || [];
         return (
-            <div>
-                <div className="row">
-                    <div className="panel panel-info">
-                    <div className="panel-heading">{category.name}</div>
-                    </div>
-                </div>
+        <div>
+            <h2>Category | {category.name}</h2>
             <PostList posts={posts} category={category.name}/>
-            <Link href="#" to="/">Back to Main</Link>
+            <div style={linkStyle}>
+                <Link href="#" to="/"><FloatingActionButton mini={true}><ContentHome /></FloatingActionButton></Link>
             </div>
+            <div style={linkStyle}>
+                <Link to='/post'><FloatingActionButton mini={true}><ContentAdd /></FloatingActionButton></Link>
+            </div>
+        </div>
         )
     }
 }

@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as BlogAPI from '../BlogAPI'
-import {updateComment} from '../actions'
+import {updateComment} from '../actions/CommentActions'
+import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton'
+import FontIcon from 'material-ui/FontIcon';
+import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
+import ArrowUp from 'material-ui/svg-icons/navigation/arrow-drop-up';
+
 
 class VoteComment extends Component {
     voteUp(comment) {
@@ -19,11 +25,21 @@ class VoteComment extends Component {
 
     render() {
         const comment = this.props.comment;
+        const menuItemControl = this.props.control === 'menuItem';
         return (
             <div>
-                <span className="glyphicon glyphicon-arrow-up" onClick={()=> this.voteUp(comment)}></span>
-                <span className="glyphicon glyphicon-arrow-down" onClick={()=> this.voteDown(comment)}></span>
-            </div>
+            {menuItemControl ?
+                <div>
+                    <MenuItem><span onClick={()=> this.voteUp(comment)}>{<ArrowUp />}Vote up</span></MenuItem>
+                    <MenuItem><span onClick={()=> this.voteDown(comment)}>{<ArrowDown />}Vote Down</span></MenuItem>
+                </div> 
+                :
+                <div>
+                    <span onClick={()=> this.voteUp(comment)}><FlatButton label="Vote Up" labelPosition="before" primary={true}icon={<ArrowUp />}/></span>
+                    <span onClick={()=> this.voteDown(comment)}><FlatButton label="Vote Down" labelPosition="before" primary={true}icon={<ArrowDown/>}/></span>
+                </div>
+            }
+            </div>          
         )
     }
 }

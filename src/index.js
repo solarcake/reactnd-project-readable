@@ -6,6 +6,8 @@ import React from 'react';
 import registerServiceWorker from './registerServiceWorker'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom';
+import thunk from 'redux-thunk';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -21,14 +23,14 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
   reducer,
   composeEnhancers(
-      applyMiddleware(logger)
+      applyMiddleware(logger, thunk)
   )   
 )
 
 ReactDOM.render(
 <BrowserRouter>
 <Provider store={store}> 
-<App/> 
+<MuiThemeProvider><App/></MuiThemeProvider>
 </Provider>
 </BrowserRouter>, document.getElementById('root'));
 

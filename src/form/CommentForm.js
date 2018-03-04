@@ -1,23 +1,57 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
+import TextField from 'material-ui/TextField'
+import FlatButton from 'material-ui/FlatButton'
+
 export const fields = [ 'body', 'author']
 
 class CommentForm extends Component {
   render() {
+    const renderTextField = ({
+      input,
+      label,
+      meta: { touched, error },
+      ...custom
+    }) => (
+      <TextField
+        hintText={label}
+        floatingLabelText={label}
+        errorText={touched && error}
+        {...input}
+        {...custom}
+      />
+    )
+
+    const renderTextAreaField = ({
+      input,
+      label,
+      meta: { touched, error },
+      ...custom
+    }) => (
+      <TextField
+        hintText={label}
+        floatingLabelText={label}
+        multiLine={true}
+        rows={2}
+        rowsMax={4}
+        errorText={touched && error}
+        {...input}
+        {...custom}
+      />
+    )
+
     const { fields: { body, author}, handleSubmit, pristine, submitting } = this.props
     const editMode = !!this.props.initialValues;
     return (
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="body">Body</label>
-            <Field className="form-control" name="body" component="textarea" type="textarea" {...body}/>
+            <Field name="body" component={renderTextAreaField} label="BODY" {...body}/>
           </div>
           <div>
-            <label htmlFor="author">Author</label>
-            <Field disabled={editMode} className="form-control" name="author" component="input"  type="text" {...author}/>
+            <Field disabled={editMode} name="author" component={renderTextField} label="AUTHOR" {...author}/>  
           </div>
-            <button className="btn btn-primary" disabled={pristine || submitting} type="submit">Submit</button>    
+          <FlatButton primary={true} disabled={pristine || submitting} type="submit">Submit</FlatButton>  
         </form>
       );
   }
