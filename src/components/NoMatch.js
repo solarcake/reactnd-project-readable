@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ContentHome from 'material-ui/svg-icons/action/home';
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import {Link} from 'react-router-dom'

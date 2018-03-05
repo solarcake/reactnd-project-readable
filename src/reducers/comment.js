@@ -6,8 +6,6 @@ import {
 
 export default function comment(state = {}, action) {
     const {comments, type, postId, comment} = action;
-    let stateComments;
-    let updateStateComments;
     switch (type) {
         case LOAD_POST_COMMENTS:
             return {
