@@ -14,6 +14,12 @@ class Comment extends Component {
         type: '',
         comment: null
     }
+    
+    constructor(props) {
+        super(props);
+        this.updateComment = this.updateComment.bind(this);
+        this.processDeleteComment = this.postDeleteComment.bind(this);
+    }
 
     componentDidMount() {
         const commentId = this.props.match.params.commentId;
@@ -97,8 +103,8 @@ class Comment extends Component {
                     ?
                     <div>
                         <h2>Edit comment</h2> 
-                        <CommentForm initialValues={comment} onSubmit={this.updateComment.bind(this)}/> 
-                        <DeleteComment comment={comment} onSubmit={this.postDeleteComment.bind(this)} control="button"/>                         
+                        <CommentForm initialValues={comment} onSubmit={this.updateComment}/> 
+                        <DeleteComment comment={comment} onSubmit={this.processDeleteComment} control="button"/>                         
                     </div>
                     : 
                     <div>

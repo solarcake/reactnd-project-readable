@@ -47,11 +47,7 @@ function mapDispatchToProps (dispatch) {
     }
 }
 
-function mapStateToProps() {
-    return {};
-}
-  
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(Vote)

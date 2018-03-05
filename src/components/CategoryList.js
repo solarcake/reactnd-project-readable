@@ -22,7 +22,7 @@ class CategoryList extends Component {
       }
     
       sortCategoryList(name) {
-        let categories = this.state.categories;
+        const categories = this.state.categories;
         const direction = this.state.categoryListSortDirection
         categories.sort((a, b) => {
            if (direction === DEFAULT_COMPONENT_DIRECTION) {

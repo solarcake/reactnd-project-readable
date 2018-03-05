@@ -36,13 +36,9 @@ function mapDispatchToProps (dispatch) {
         updatePost: (data) => dispatch(updatePost(data))
     }
 }
-    
-function mapStateToProps() {
-    return {};
-}
       
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(DeletePost)
 

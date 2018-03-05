@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Vote from './Vote'
 import DeletePost from './DeletePost'
+import {DEFAULT_COMPONENT_DIRECTION} from '../constants/constants'
+import ContentEdit from 'material-ui/svg-icons/editor/mode-edit';
 
 import {
     Table,
@@ -12,8 +14,6 @@ import {
     TableRow,
     TableRowColumn,
   } from 'material-ui/Table';
-
-const DEFAULT_COMPONENT_DIRECTION = 'DESC';
 
 class PostList extends Component {    
     constructor(props) {
@@ -55,17 +55,19 @@ class PostList extends Component {
     }
 
     renderPostList(posts) {
-        return posts.map((p) => (
-            <TableRow key={p.id}>
-                <TableRowColumn><Link to={`/${p.category}/${p.id}`}>{p.title}</Link></TableRowColumn>
-                <TableRowColumn>{p.author}</TableRowColumn>
-                <TableRowColumn>{p.voteScore}</TableRowColumn>
-                <TableRowColumn>{this.formatDateTimeStamp(p.timestamp)}</TableRowColumn>
-                <TableRowColumn>{p.commentCount}</TableRowColumn>
+        return posts.map((p) => {
+            const { id, title, category, author, voteScore, timestamp, commentCount } = p;            
+           return (<TableRow key={id}>
+                <TableRowColumn><Link to={`/${category}/${id}`}>{title}</Link></TableRowColumn>
+                <TableRowColumn>{author}</TableRowColumn>
+                <TableRowColumn>{voteScore}</TableRowColumn>
+                <TableRowColumn>{this.formatDateTimeStamp(timestamp)}</TableRowColumn>
+                <TableRowColumn>{commentCount}</TableRowColumn>
+                <TableRowColumn><Link to={`/${category}/${id}`}><ContentEdit/></Link></TableRowColumn>
                 <TableRowColumn><DeletePost post={p}/></TableRowColumn>
                 <TableRowColumn><Vote post={p} control="menuItem"/></TableRowColumn>
-            </TableRow>
-        ))
+            </TableRow>)
+        })
     }
     render() {
         const posts = this.state.posts.filter((p) => !p.deleted);
@@ -97,7 +99,7 @@ class PostList extends Component {
                 adjustForCheckbox={this.state.showCheckboxes}
             >
             <TableRow>
-                <TableHeaderColumn colSpan="7" tooltip="Posts" style={{textAlign: 'left'}}>
+                <TableHeaderColumn colSpan="8" tooltip="Posts" style={{textAlign: 'left'}}>
                     <h2>Blog Posts | {posts.length} Posts have been written </h2>
                 </TableHeaderColumn>
             </TableRow>
@@ -107,6 +109,7 @@ class PostList extends Component {
                 <TableHeaderColumn><span style={{ cursor: 'pointer' }} href="#" onClick={()=>this.sortPostByControl('voteScore', directionControls.voteScore.inverseDirection)}>Vote Score <i className="material-icons">{directionControls.voteScore.className}</i></span></TableHeaderColumn>
                 <TableHeaderColumn><span style={{ cursor: 'pointer' }} href="#" onClick={()=>this.sortPostByControl('timestamp', directionControls.timestamp.inverseDirection)}>Created time <i className="material-icons">{directionControls.timestamp.className}</i></span></TableHeaderColumn>
                 <TableHeaderColumn>Comment Count</TableHeaderColumn>
+                <TableHeaderColumn>Edit</TableHeaderColumn>
                 <TableHeaderColumn>Delete</TableHeaderColumn>
                 <TableHeaderColumn>Vote</TableHeaderColumn>
             </TableRow>

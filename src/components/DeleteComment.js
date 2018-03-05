@@ -5,10 +5,13 @@ import { connect } from 'react-redux'
 import FlatButton from 'material-ui/FlatButton'
 import Deletedit from 'material-ui/svg-icons/action/delete';
 
-class DeleteComment extends Component {
-    removeComment(comment) {
-        const updateComment= this.props.updateComment;
-        const onSubmit = this.props.onSubmit;
+const DeleteComment = (props) => {
+    const comment =  props.comment;
+    const buttonControl = props.control === 'button'
+
+    function removeComment(comment) {
+        const updateComment= props.updateComment;
+        const onSubmit = props.onSubmit;
         BlogAPI.removeComment(comment)
         .then((response) => {
             updateComment(response);
@@ -19,16 +22,12 @@ class DeleteComment extends Component {
         });
     }
 
-    render() {
-        const comment = this.props.comment;
-        const buttonControl = this.props.control === 'button'
-        return (
-            buttonControl ? 
-            <FlatButton primary={true} onClick={()=> this.removeComment(comment)}>Delete Comment</FlatButton>
-            :
-            <span style={{ cursor: 'pointer' }} onClick={()=> this.removeComment(comment)}>{<Deletedit/>}</span>
-        )
-    }
+    return (
+        buttonControl ? 
+        <FlatButton primary={true} onClick={()=> removeComment(comment)}>Delete Comment</FlatButton>
+        :
+        <span style={{ cursor: 'pointer' }} onClick={()=> removeComment(comment)}>{<Deletedit/>}</span>
+    )
 }
 
 function mapDispatchToProps (dispatch) {
@@ -36,13 +35,9 @@ function mapDispatchToProps (dispatch) {
         updateComment: (data) => dispatch(updateComment(data))
     }
 }
-    
-function mapStateToProps() {
-    return {};
-}
       
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(DeleteComment)
 

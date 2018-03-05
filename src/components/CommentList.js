@@ -7,6 +7,7 @@ import DeleteComment from './DeleteComment'
 import VoteComment from './VoteComment'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentEdit from 'material-ui/svg-icons/editor/mode-edit';
 
 import {
     Table,
@@ -44,6 +45,7 @@ class CommentList extends Component {
                 <TableRowColumn><Link to={`/comment/${comment.parentId}/${comment.id}`}>{comment.id}</Link></TableRowColumn>
                 <TableRowColumn>{comment.author}</TableRowColumn>
                 <TableRowColumn>{comment.voteScore}</TableRowColumn>
+                <TableRowColumn><Link to={`/comment/${comment.parentId}/${comment.id}`}>{<ContentEdit/>}</Link></TableRowColumn>
                 <TableRowColumn><DeleteComment comment={comment}/></TableRowColumn>
                 <TableRowColumn><VoteComment comment={comment} control="menuItem"/></TableRowColumn>
             </TableRow>
@@ -63,7 +65,7 @@ class CommentList extends Component {
                         adjustForCheckbox={this.state.showCheckboxes}
                     >
                     <TableRow>
-                        <TableHeaderColumn colSpan="5" tooltip="Comment posts" style={{textAlign: 'left'}}>
+                        <TableHeaderColumn colSpan="6" tooltip="Comment posts" style={{textAlign: 'left'}}>
                             <h2>Blog Post Comments | {comments.length} comments have been written for this post </h2>
                         </TableHeaderColumn>
                     </TableRow>
@@ -71,6 +73,7 @@ class CommentList extends Component {
                             <TableHeaderColumn>id</TableHeaderColumn>
                             <TableHeaderColumn>Author</TableHeaderColumn>
                             <TableHeaderColumn>Vote Score</TableHeaderColumn>
+                            <TableHeaderColumn>Edit</TableHeaderColumn>
                             <TableHeaderColumn>Delete</TableHeaderColumn>
                             <TableHeaderColumn>Vote</TableHeaderColumn>
                     </TableRow>
