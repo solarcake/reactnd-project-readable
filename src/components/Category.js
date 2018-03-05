@@ -8,21 +8,16 @@ import ContentHome from 'material-ui/svg-icons/action/home';
 class Category extends Component {
    
     render() {
-        const linkStyle = {
-            display: "inline-block",
-            display: "inline-flex"
-        }
-    
         const category = this.props.category || {};
         const posts = this.props.posts || [];
         return (
         <div>
             <h2>Category | {category.name}</h2>
             <PostList posts={posts} category={category.name}/>
-            <div style={linkStyle}>
+            <div>
                 <Link href="#" to="/"><FloatingActionButton mini={true}><ContentHome /></FloatingActionButton></Link>
             </div>
-            <div style={linkStyle}>
+            <div>
                 <Link to='/post'><FloatingActionButton mini={true}><ContentAdd /></FloatingActionButton></Link>
             </div>
         </div>

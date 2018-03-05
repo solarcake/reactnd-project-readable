@@ -57,7 +57,7 @@ class Post extends Component {
                      <div>
                          <h2>Edit Post | Current vote score is {editedPost.voteScore}</h2>
                          <PostForm initialValues={editedPost} onSubmit={this.processPostUpdate.bind(this)}/>
-                         <DeletePost control="button" post={editedPost} onSubmit={this.postDeleted.bind(this)}/>
+                         <div style={{float:'left'}}><DeletePost control="button" post={editedPost} onSubmit={this.postDeleted.bind(this)}/></div>
                          <Vote post={editedPost} control="button"/>
                          <CommentList postId={postId}/>  
                     </div>

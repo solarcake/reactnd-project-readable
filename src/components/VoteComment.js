@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as BlogAPI from '../BlogAPI'
 import {updateComment} from '../actions/CommentActions'
-import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton'
-import FontIcon from 'material-ui/FontIcon';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import ArrowUp from 'material-ui/svg-icons/navigation/arrow-drop-up';
 
@@ -30,8 +28,8 @@ class VoteComment extends Component {
             <div>
             {menuItemControl ?
                 <div>
-                    <MenuItem><span onClick={()=> this.voteUp(comment)}>{<ArrowUp />}Vote up</span></MenuItem>
-                    <MenuItem><span onClick={()=> this.voteDown(comment)}>{<ArrowDown />}Vote Down</span></MenuItem>
+                    <span style={{ cursor: 'pointer' }} onClick={()=> this.voteUp(comment)}>{<ArrowUp />}</span>
+                    <span style={{ cursor: 'pointer' }} onClick={()=> this.voteDown(comment)}>{<ArrowDown />}</span>
                 </div> 
                 :
                 <div>

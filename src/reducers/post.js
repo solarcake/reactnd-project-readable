@@ -1,6 +1,3 @@
-import { combineReducers } from 'redux'
-import { reducer as formReducer } from 'redux-form'
-
 import {
     LOAD_POSTS,
     UPDATE_POST,

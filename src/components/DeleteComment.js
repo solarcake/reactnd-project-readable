@@ -3,6 +3,7 @@ import * as BlogAPI from '../BlogAPI'
 import {updateComment} from '../actions/CommentActions'
 import { connect } from 'react-redux'
 import FlatButton from 'material-ui/FlatButton'
+import Deletedit from 'material-ui/svg-icons/action/delete';
 
 class DeleteComment extends Component {
     removeComment(comment) {
@@ -25,7 +26,7 @@ class DeleteComment extends Component {
             buttonControl ? 
             <FlatButton primary={true} onClick={()=> this.removeComment(comment)}>Delete Comment</FlatButton>
             :
-            <span onClick={()=> this.removeComment(comment)}>Delete Comment</span>
+            <span style={{ cursor: 'pointer' }} onClick={()=> this.removeComment(comment)}>{<Deletedit/>}</span>
         )
     }
 }

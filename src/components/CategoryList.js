@@ -69,8 +69,8 @@ class CategoryList extends Component {
                 </TableHeaderColumn>
             </TableRow>
             <TableRow>
-                <TableHeaderColumn><span onClick={()=>this.sortCategoryList('name')}>Name <i className="material-icons">{categoryArrowClass}</i> </span></TableHeaderColumn>
-                <TableHeaderColumn><span onClick={()=>this.sortCategoryList('path')}>Path <i className="material-icons">{categoryArrowClass}</i> </span></TableHeaderColumn>
+                <TableHeaderColumn><span style={{ cursor: 'pointer' }} onClick={()=>this.sortCategoryList('name')}>Name <i className="material-icons">{categoryArrowClass}</i> </span></TableHeaderColumn>
+                <TableHeaderColumn><span style={{ cursor: 'pointer' }} onClick={()=>this.sortCategoryList('path')}>Path <i className="material-icons">{categoryArrowClass}</i> </span></TableHeaderColumn>
             </TableRow>
             </TableHeader> 
 
